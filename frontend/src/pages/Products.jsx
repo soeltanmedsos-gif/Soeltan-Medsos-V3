@@ -49,7 +49,7 @@ export default function Products() {
       if (selectedPlatform) params.platform = selectedPlatform;
       
       const response = await productApi.getAll(params);
-      setProducts(response.data.data);
+      setProducts(response.data.data || []);
       if (response.data.pagination) {
         setPagination(prev => ({
           ...prev,
@@ -74,7 +74,7 @@ export default function Products() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const filteredProducts = products.filter((product) => {
+  const filteredProducts = (products || []).filter((product) => {
     if (!searchQuery) return true;
     return (
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||

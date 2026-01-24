@@ -32,7 +32,7 @@ export default function OrdersManagement() {
   // Effect for CLIENT-SIDE filters (Platform)
   useEffect(() => {
     if (platformFilter) {
-      setFilteredOrders(orders.filter(o => o.products?.platform === platformFilter));
+      setFilteredOrders((orders || []).filter(o => o.products?.platform === platformFilter));
     } else {
       setFilteredOrders(orders);
     }
@@ -60,8 +60,8 @@ export default function OrdersManagement() {
         status_seller: sellerFilter || undefined,
         search: search || undefined,
       });
-      setOrders(response.data.data);
-      setFilteredOrders(response.data.data); 
+      setOrders(response.data.data || []);
+      setFilteredOrders(response.data.data || []); 
     } catch (error) {
       console.error('Failed to load orders:', error);
     } finally {
