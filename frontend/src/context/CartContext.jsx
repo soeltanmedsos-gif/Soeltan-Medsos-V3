@@ -62,7 +62,7 @@ export function CartProvider({ children }) {
   const toggleCart = () => setIsCartOpen(!isCartOpen);
 
   const cartTotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-  const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
+  const cartCount = cart.length;
 
   return (
     <CartContext.Provider
