@@ -81,9 +81,9 @@ export default function Footer() {
             </ul>
             
             <div className="flex gap-4 pt-4">
-              <SocialLink href="https://instagram.com/soeltanmedsos" icon={<Instagram size={20} />} label="Instagram" />
-              <SocialLink href="https://facebook.com/soeltanmedsos" icon={<Facebook size={20} />} label="Facebook" />
-              <SocialLink href="https://youtube.com/@soeltanmedsos" icon={<Youtube size={20} />} label="YouTube" />
+              <SocialLink href="https://www.instagram.com/soeltanmedsosdgm?igsh=MWQzZHozcW5pdTRnMA==" icon={<Instagram size={20} />} label="Instagram" />
+              <SocialLink href="https://tiktok.com/@didikfjr" icon={<TiktokIcon size={20} />} label="TikTok" />
+              <SocialLink href="https://youtube.com/@soeltanmedsos?si=tRiLEvdzrXKBVAuC" icon={<Youtube size={20} />} label="YouTube" />
             </div>
           </div>
         </div>
@@ -98,6 +98,25 @@ export default function Footer() {
         </div>
       </div>
     </footer>
+  );
+}
+
+function TiktokIcon({ size = 24, className }) {
+  return (
+    <svg 
+      xmlns="http://www.w3.org/2000/svg" 
+      width={size} 
+      height={size} 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      strokeWidth="2" 
+      strokeLinecap="round" 
+      strokeLinejoin="round" 
+      className={className}
+    >
+      <path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5" />
+    </svg>
   );
 }
 
