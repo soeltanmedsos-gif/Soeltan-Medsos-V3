@@ -18,10 +18,11 @@ app.use(helmet());
 
 // CORS configuration
 app.use(cors({
-    origin: [config.frontend.url, 'http://localhost:5173', 'http://localhost:3000'],
+    origin: [config.frontend.url, 'http://localhost:5173', 'http://localhost:3000', 'https://soeltan-medsos-v3-inife.vercel.app'],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
+    allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept', 'Origin'],
+    optionsSuccessStatus: 200
 }));
 
 // Logging
