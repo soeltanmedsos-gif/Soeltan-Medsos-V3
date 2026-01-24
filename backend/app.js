@@ -12,6 +12,7 @@ const webhookRoutes = require('./src/routes/webhookRoutes');
 
 // Create Express app
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy (Vercel/Edge)
 
 // Security middleware
 app.use(helmet());

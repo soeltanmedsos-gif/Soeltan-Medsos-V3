@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, CheckCircle, Smartphone, User, CreditCard, Loader2, Copy, MessageCircle } from 'lucide-react';
