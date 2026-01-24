@@ -19,6 +19,21 @@ export default function Checkout() {
   const [buyerName, setBuyerName] = useState('');
   const [buyerPhone, setBuyerPhone] = useState('');
 
+  useEffect(() => {
+    // Dynamic Snap.js loader for Production
+    const snapUrl = 'https://app.midtrans.com/snap/snap.js'; 
+    const clientKey = import.meta.env.VITE_MIDTRANS_CLIENT_KEY; 
+
+    if (clientKey && !document.getElementById('midtrans-script')) {
+      const script = document.createElement('script');
+      script.id = 'midtrans-script';
+      script.src = snapUrl;
+      script.setAttribute('data-client-key', clientKey);
+      script.async = true;
+      document.body.appendChild(script);
+    }
+  }, []);
+
   const handleProcessOrder = async () => {
     if (cart.length === 0) return;
     
