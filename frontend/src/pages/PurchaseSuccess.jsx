@@ -3,7 +3,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { orderApi } from '../services/api';
 import { motion } from 'framer-motion';
 import { CheckCircle, Copy, Check, Download, MessageCircle, ArrowLeft, Package, User, Phone, CreditCard } from 'lucide-react';
-import { formatRupiah, getWhatsAppLink } from '../utils/formatters';
+import { formatRupiah, getWhatsAppLink, shortenLink } from '../utils/formatters';
 import { PageLoader } from '../components/LoadingSpinner';
 import toast from 'react-hot-toast';
 
@@ -201,7 +201,7 @@ Terima kasih!`;
               </div>
               <div className="pt-3 border-t border-slate-700 mt-3">
                 <p className="text-slate-400 text-sm mb-1">Target/Link:</p>
-                <p className="text-white text-sm break-all">{order.target_link}</p>
+                <p className="text-white text-sm break-all" title={order.target_link}>{shortenLink(order.target_link, 50)}</p>
               </div>
             </div>
 

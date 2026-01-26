@@ -4,7 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Trash2, CheckCircle, Smartphone, User, CreditCard, Loader2, Copy, MessageCircle } from 'lucide-react';
 import { orderApi } from '../services/api';
 import { Input } from '../components/ui';
-import { getWhatsAppLink } from '../utils/formatters';
+import { getWhatsAppLink, shortenLink } from '../utils/formatters';
+import { initializeMidtrans } from '../utils/midtransHelper';
 import toast from 'react-hot-toast';
 
 export default function Checkout() {
@@ -30,7 +31,17 @@ export default function Checkout() {
       script.src = snapUrl;
       script.setAttribute('data-client-key', clientKey);
       script.async = true;
+      script.onload = () => {
+        console.log('Midtrans Snap loaded');
+        // Initialize mobile enhancements
+        setTimeout(() => {
+          initializeMidtrans();
+        }, 100);
+      };
       document.body.appendChild(script);
+    } else if (window.snap) {
+      // Initialize if Snap is already loaded
+      initializeMidtrans();
     }
   }, []);
 
@@ -100,9 +111,16 @@ export default function Checkout() {
         const paymentResponse = await orderApi.createPayment(lastOrderData.purchase_code);
         const { snap_token } = paymentResponse.data.data;
         
-        // Open Midtrans Snap popup
+        // Open Midtrans Snap popup with mobile-friendly configuration
         if (snap_token && window.snap) {
+          const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          
           window.snap.pay(snap_token, {
+            // Enhanced mobile configuration
+            skipOrderSummary: false,
+            gopayMode: isMobile ? 'deeplink' : 'redirect',
+            language: 'id',
+            
             onSuccess: function(result) {
               clearCart();
               setCurrentStep('success');
@@ -309,7 +327,7 @@ export default function Checkout() {
                              <span className="bg-slate-900 px-2 py-0.5 rounded text-xs">Qty: {item.quantity}</span>
                              <span className="hidden sm:inline text-slate-600">•</span>
                            </div>
-                           <span className="truncate w-full sm:max-w-[200px]" title={item.target_link}>{item.target_link}</span>
+                           <span className="truncate w-full sm:max-w-[200px]" title={item.target_link}>{shortenLink(item.target_link, 35)}</span>
                          </div>
                          <p className="text-indigo-400 font-bold">Rp {(item.price * item.quantity).toLocaleString('id-ID')}</p>
                       </div>

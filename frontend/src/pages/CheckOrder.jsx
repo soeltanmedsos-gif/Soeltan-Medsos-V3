@@ -6,6 +6,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import { Button, Input } from '../components/ui';
 import { Search, PackageSearch, CreditCard } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { initializeMidtrans } from '../utils/midtransHelper';
 import toast from 'react-hot-toast';
 
 export default function CheckOrder() {
@@ -22,6 +23,21 @@ export default function CheckOrder() {
     if (codeFromUrl) {
       setPurchaseCode(codeFromUrl.toUpperCase());
       handleSearch(codeFromUrl.toUpperCase());
+    }
+    
+    // Initialize Midtrans mobile enhancements
+    if (window.snap) {
+      initializeMidtrans();
+    } else {
+      // Wait for Snap to load
+      const checkSnap = setInterval(() => {
+        if (window.snap) {
+          initializeMidtrans();
+          clearInterval(checkSnap);
+        }
+      }, 500);
+      
+      setTimeout(() => clearInterval(checkSnap), 10000);
     }
   }, [searchParams]);
 
@@ -58,7 +74,14 @@ export default function CheckOrder() {
       const { snap_token } = response.data.data;
       
       if (snap_token && window.snap) {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
         window.snap.pay(snap_token, {
+          // Mobile-optimized configuration
+          skipOrderSummary: false,
+          gopayMode: isMobile ? 'deeplink' : 'redirect',
+          language: 'id',
+          
           onSuccess: function(result) {
             console.log('Payment success:', result);
             toast.success('Pembayaran berhasil!');
@@ -75,7 +98,13 @@ export default function CheckOrder() {
           },
           onClose: function() {
             console.log('Snap popup closed');
-            toast.info('Pembayaran dibatalkan.');
+            // Mobile-friendly message - don't assume cancellation
+            if (isMobile) {
+              toast.info('Status pembayaran akan diperbarui otomatis');
+              handleSearch(order.purchase_code);
+            } else {
+              toast.info('Pembayaran dibatalkan.');
+            }
           }
         });
       } else {

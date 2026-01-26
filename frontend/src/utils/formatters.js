@@ -93,6 +93,46 @@ Terima kasih!`;
     return getWhatsAppLink(message);
 }
 
+/**
+ * Shorten long URLs/links for better display
+ */
+export function shortenLink(link, maxLength = 40) {
+    if (!link) return '';
+    
+    // If link is shorter than maxLength, return as is
+    if (link.length <= maxLength) return link;
+    
+    // For URLs, try to show domain + path start/end
+    if (link.startsWith('http')) {
+        try {
+            const url = new URL(link);
+            const domain = url.hostname;
+            const path = url.pathname + url.search;
+            
+            if (domain.length + path.length <= maxLength) {
+                return domain + path;
+            }
+            
+            // Show domain + truncated path
+            const availableLength = maxLength - domain.length - 3; // 3 for "..."
+            if (availableLength > 10) {
+                const pathStart = path.substring(0, Math.floor(availableLength / 2));
+                const pathEnd = path.substring(path.length - Math.floor(availableLength / 2));
+                return `${domain}${pathStart}...${pathEnd}`;
+            }
+            
+            // Fallback to just domain + ...
+            return `${domain}...`;
+        } catch (e) {
+            // If URL parsing fails, use general truncation
+        }
+    }
+    
+    // For non-URLs (usernames, etc.), show start and end
+    const halfLength = Math.floor((maxLength - 3) / 2);
+    return `${link.substring(0, halfLength)}...${link.substring(link.length - halfLength)}`;
+}
+
 
 /**
  * Platform icons mapping

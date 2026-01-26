@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { adminApi, productApi } from '../../services/api';
-import { formatRupiah, formatDate, getPaymentStatusInfo, getSellerStatusInfo } from '../../utils/formatters';
+import { formatRupiah, formatDate, getPaymentStatusInfo, getSellerStatusInfo, shortenLink } from '../../utils/formatters';
 import { PageLoader } from '../../components/LoadingSpinner';
 import { Search, Eye, X, Phone, User, ExternalLink, Copy, Check, Trash2, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -355,9 +355,9 @@ export default function OrdersManagement() {
                 {/* Target Link */}
                 <div className="p-4 bg-slate-800/50 rounded-xl border border-slate-700/50">
                   <span className="text-xs text-slate-500 block mb-2">Target Link</span>
-                  <a href={selectedOrder.target_link} target="_blank" className="text-indigo-400 text-sm break-all hover:underline flex items-start gap-2">
+                  <a href={selectedOrder.target_link} target="_blank" className="text-indigo-400 text-sm break-all hover:underline flex items-start gap-2" title={selectedOrder.target_link}>
                     <ExternalLink size={14} className="mt-0.5 shrink-0" />
-                    {selectedOrder.target_link}
+                    {shortenLink(selectedOrder.target_link, 50)}
                   </a>
                 </div>
                 

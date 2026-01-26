@@ -6,6 +6,7 @@ import Breadcrumb from '../components/Breadcrumb';
 import OrderStepper from '../components/OrderStepper';
 import { PageLoader } from '../components/LoadingSpinner';
 import { formatRupiah, getWhatsAppLink } from '../utils/formatters';
+import { initializeMidtrans } from '../utils/midtransHelper';
 import { AlertTriangle, ArrowLeft, CreditCard, Copy, Check, MessageCircle } from 'lucide-react';
 import { motion } from 'framer-motion';
 import axios from 'axios';
@@ -23,6 +24,22 @@ export default function OrderInfo() {
 
   useEffect(() => {
     loadOrder();
+    
+    // Initialize Midtrans mobile enhancements
+    if (window.snap) {
+      initializeMidtrans();
+    } else {
+      // Wait for Snap to load if not ready
+      const checkSnap = setInterval(() => {
+        if (window.snap) {
+          initializeMidtrans();
+          clearInterval(checkSnap);
+        }
+      }, 500);
+      
+      // Clear interval after 10 seconds
+      setTimeout(() => clearInterval(checkSnap), 10000);
+    }
   }, [purchaseCode]);
 
   const loadOrder = async () => {
@@ -63,16 +80,29 @@ export default function OrderInfo() {
         return;
       }
 
-      // Open Midtrans Snap for real payments
+      // Open Midtrans Snap for real payments with mobile optimization
       if (window.snap) {
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
         window.snap.pay(snap_token, {
+          // Mobile-friendly configuration
+          skipOrderSummary: false,
+          gopayMode: isMobile ? 'deeplink' : 'redirect',
+          language: 'id',
+          
           onSuccess: () => loadOrder(),
           onPending: () => loadOrder(),
           onError: (result) => {
             setError('Pembayaran gagal. Silakan coba lagi.');
             console.error('Payment error:', result);
           },
-          onClose: () => loadOrder(),
+          onClose: () => {
+            loadOrder();
+            // Don't show error on close for mobile users as they might switch apps
+            if (!isMobile) {
+              toast.info('Jendela pembayaran ditutup. Status akan diperbarui otomatis.');
+            }
+          },
         });
       } else {
         setError('Payment gateway tidak tersedia');

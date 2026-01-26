@@ -80,6 +80,19 @@ class RealMidtransService {
             callbacks: {
                 finish: `${config.frontend.url}/cek-pesanan?code=${order.purchase_code}`,
             },
+            // Enhanced mobile support
+            custom_field1: order.purchase_code,
+            custom_field2: 'mobile_optimized',
+            // Ensure mobile-friendly experience
+            expiry: {
+                start_time: new Date().toISOString().replace(/\.\d{3}Z$/, ' +0700'),
+                unit: 'hours',
+                duration: 24
+            },
+            page_expiry: {
+                duration: 60,
+                unit: 'minutes'
+            }
         };
 
         console.log('Creating Midtrans transaction with params:', JSON.stringify(parameter, null, 2));

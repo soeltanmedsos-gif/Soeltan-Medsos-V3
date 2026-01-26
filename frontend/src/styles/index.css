@@ -176,3 +176,93 @@ html {
   background: #3b82f6;
   color: white;
 }
+
+/* Mobile-optimized Midtrans Snap styles */
+@media (max-width: 768px) {
+  /* Improve Snap popup mobile experience */
+  .snap-overlay {
+    padding: 0 !important;
+  }
+  
+  .snap-modal {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    max-width: none !important;
+  }
+  
+  .snap-header {
+    padding: 16px 20px !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 1000 !important;
+    background: white !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+  }
+  
+  .snap-close {
+    font-size: 24px !important;
+    padding: 8px !important;
+    color: #64748b !important;
+    background: #f1f5f9 !important;
+    border-radius: 6px !important;
+    border: none !important;
+    min-height: 40px !important;
+    min-width: 40px !important;
+    cursor: pointer !important;
+  }
+  
+  .snap-close:hover {
+    background: #e2e8f0 !important;
+    color: #334155 !important;
+  }
+  
+  .snap-content {
+    padding: 0 20px 20px !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+  
+  .snap-payment-method {
+    padding: 16px 0 !important;
+    border-radius: 8px !important;
+    margin-bottom: 12px !important;
+  }
+  
+  .snap-payment-method:hover {
+    background: #f8fafc !important;
+  }
+  
+  .snap-btn {
+    padding: 16px 24px !important;
+    font-size: 16px !important;
+    border-radius: 8px !important;
+    min-height: 48px !important;
+    width: 100% !important;
+    margin-top: 20px !important;
+  }
+  
+  .snap-btn-primary {
+    background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+    color: white !important;
+    border: none !important;
+    font-weight: 600 !important;
+  }
+  
+  .snap-btn-primary:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4) !important;
+  }
+}
+
+/* Ensure good touch targets on mobile */
+@media (max-width: 768px) {
+  .snap-payment-method,
+  .snap-btn,
+  .snap-close,
+  [class*="snap-"] button {
+    min-height: 44px !important;
+    touch-action: manipulation !important;
+  }
+}
