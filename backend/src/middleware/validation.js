@@ -107,7 +107,7 @@ const validateStatusPaymentUpdate = [
 const validatePurchaseCode = [
     param('purchase_code')
         .notEmpty().withMessage('Purchase code wajib diisi')
-        .matches(/^SM-[A-Z0-9]{8}$/).withMessage('Format purchase code tidak valid'),
+        .matches(/^(SM-|TRX-)[a-z0-9-]{4,50}$/i).withMessage('Format purchase code tidak valid'),
     handleValidationErrors,
 ];
 

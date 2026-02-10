@@ -1,6 +1,7 @@
 const express = require('express');
 const productController = require('../controllers/productController');
 const orderController = require('../controllers/orderController');
+const upload = require('../middleware/upload');
 const { validateOrderCreate, validatePurchaseCode } = require('../middleware/validation');
 const { orderLimiter } = require('../middleware/rateLimit');
 
@@ -16,6 +17,7 @@ router.get('/platforms/:platform/sub-platforms', productController.getSubPlatfor
 router.post('/order/create', orderLimiter, validateOrderCreate, orderController.createOrder);
 router.get('/order/status/:purchase_code', validatePurchaseCode, orderController.getOrderStatus);
 router.post('/order/pay', orderController.createPayment);
+router.post('/order/submit-proof', upload.single('payment_proof'), orderController.submitPaymentProof);
 router.post('/order/:purchaseCode/refresh-status', orderController.refreshPaymentStatus);
 
 module.exports = router;

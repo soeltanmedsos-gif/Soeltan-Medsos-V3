@@ -3,7 +3,7 @@ const rateLimit = require('express-rate-limit');
 // General API rate limit
 const apiLimiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
+    max: 1000, // Increased for development/testing
     message: {
         success: false,
         message: 'Terlalu banyak permintaan. Silakan coba lagi nanti.',
@@ -27,7 +27,7 @@ const authLimiter = rateLimit({
 // Order creation limit
 const orderLimiter = rateLimit({
     windowMs: 60 * 1000, // 1 minute
-    max: 10, // Limit each IP to 10 orders per minute
+    max: 100, // Increased for development
     message: {
         success: false,
         message: 'Terlalu banyak pesanan. Silakan tunggu sebentar.',

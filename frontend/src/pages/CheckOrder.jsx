@@ -4,9 +4,16 @@ import { orderApi } from '../services/api';
 import OrderStatusCard from '../components/OrderStatusCard';
 import LoadingSpinner from '../components/LoadingSpinner';
 import { Button, Input } from '../components/ui';
-import { Search, PackageSearch, CreditCard } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Search, PackageSearch, CreditCard, MessageCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { initializeMidtrans } from '../utils/midtransHelper';
+import { 
+  getWhatsAppLink, 
+  formatRupiah, 
+  formatDate, 
+  getPaymentStatusInfo, 
+  getSellerStatusInfo 
+} from '../utils/formatters';
 import toast from 'react-hot-toast';
 
 export default function CheckOrder() {
@@ -125,7 +132,11 @@ export default function CheckOrder() {
   };
 
   // Check if order needs payment
-  const needsPayment = order && ['pending', 'waiting_payment'].includes(order.status_payment);
+  const needsPayment = order && (
+    Array.isArray(order) 
+      ? order.some(o => ['pending', 'waiting_payment'].includes(o.status_payment))
+      : ['pending', 'waiting_payment'].includes(order.status_payment)
+  );
 
   return (
     <div className="min-h-screen bg-slate-900 pt-28 pb-12">
@@ -161,9 +172,9 @@ export default function CheckOrder() {
                 type="text"
                 value={purchaseCode}
                 onChange={(e) => setPurchaseCode(e.target.value.toUpperCase())}
-                placeholder="SM-ABC12345"
+                placeholder="SM-ABC12345 / TRX-..."
                 className="flex-1 bg-slate-900/50 border-slate-600 text-white font-mono text-lg tracking-wider uppercase placeholder:text-slate-600 focus:border-indigo-500"
-                maxLength={12}
+                maxLength={40}
               />
               <Button 
                 type="submit" 
@@ -178,13 +189,86 @@ export default function CheckOrder() {
             </p>
           </form>
 
+        <AnimatePresence mode="wait">
           {order && (
             <motion.div 
-               initial={{ opacity: 0, scale: 0.95 }}
-               animate={{ opacity: 1, scale: 1 }}
+               key={Array.isArray(order) ? 'group' : 'single'}
+               initial={{ opacity: 0, y: 10 }}
+               animate={{ opacity: 1, y: 0 }}
+               exit={{ opacity: 0, y: -10 }}
                className="space-y-4"
             >
-              <OrderStatusCard order={order} onViewDetail={handleViewDetail} />
+              {Array.isArray(order) ? (
+                <div className="bg-slate-800/80 backdrop-blur-xl border border-slate-700 rounded-2xl overflow-hidden shadow-2xl">
+                  {/* Group Header */}
+                  <div className="p-5 border-b border-slate-700 bg-slate-900/50">
+                    <div className="flex justify-between items-center mb-1">
+                      <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-[0.2em]">Grup Transaksi</span>
+                      <span className="text-[10px] text-slate-500 font-mono tracking-tighter">{formatDate(order[0].created_at)}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-white font-mono tracking-tight">{order[0].midtrans_order_id}</h3>
+                  </div>
+
+                  {/* Items List */}
+                  <div className="divide-y divide-slate-700/50 max-h-[400px] overflow-y-auto custom-scrollbar">
+                    {order.map((item, idx) => {
+                      const pStatus = getPaymentStatusInfo(item.status_payment);
+                      const sStatus = getSellerStatusInfo(item.status_seller);
+                      return (
+                        <div key={item.id || idx} className="p-4 flex items-center gap-4 hover:bg-slate-700/20 transition-colors">
+                          <div className="w-10 h-10 bg-slate-900 rounded-xl flex items-center justify-center border border-slate-700 shrink-0">
+                            <span className="text-[10px] font-black text-slate-500 uppercase">{item.product?.platform?.substring(0, 2)}</span>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-sm font-semibold text-white truncate">{item.product?.name}</h4>
+                            <div className="flex items-center gap-2 mt-1">
+                              <span className={`text-[8px] font-black px-1.5 py-0.5 rounded leading-none border ${
+                                pStatus.color === 'badge-paid' ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-yellow-500/10 text-yellow-500 border-yellow-500/20'
+                              }`}>
+                                {pStatus.label}
+                              </span>
+                              <span className={`text-[8px] font-black px-1.5 py-0.5 rounded leading-none border ${sStatus.bgColor} ${sStatus.textColor} ${sStatus.borderColor}`}>
+                                {sStatus.label}
+                              </span>
+                            </div>
+                          </div>
+                          <div className="text-right shrink-0">
+                            <p className="text-xs font-bold text-indigo-400">{formatRupiah(item.amount)}</p>
+                            <button 
+                              onClick={() => navigate(`/order/${item.purchase_code}`)}
+                              className="text-[9px] font-bold text-slate-500 hover:text-white underline mt-1 block"
+                            >
+                              Detail
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* Group Footer */}
+                  <div className="p-5 bg-slate-900/30 border-t border-slate-700 space-y-4">
+                    <div className="flex justify-between items-end">
+                      <span className="text-slate-400 text-sm">Total Transaksi</span>
+                      <span className="text-2xl font-black text-white">{formatRupiah(order.reduce((acc, curr) => acc + curr.amount, 0))}</span>
+                    </div>
+
+                    <a
+                      href={getWhatsAppLink(`Halo Admin, saya ingin konfirmasi transaksi grup: ${order[0].midtrans_order_id}`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-center gap-2 w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 text-white rounded-xl font-bold shadow-lg shadow-green-500/20 transition-all"
+                    >
+                      <MessageCircle size={20} />
+                      <span>Konfirmasi via WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <OrderStatusCard order={order} onViewDetail={handleViewDetail} />
+                </div>
+              )}
               
               {/* Payment Button if needed */}
               {needsPayment && (
@@ -208,6 +292,7 @@ export default function CheckOrder() {
               )}
             </motion.div>
           )}
+        </AnimatePresence>
         </motion.div>
 
         {/* Help Section */}

@@ -64,7 +64,37 @@ export default function ProductDetail() {
       notes: formData.notes
     });
     
-    toggleCart(); 
+    // Custom themed toast
+    toast.success((t) => (
+      <div className="flex items-center gap-3">
+        <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg shrink-0">
+          <ShoppingCart size={20} className="text-white" />
+        </div>
+        <div>
+          <p className="text-sm font-bold text-white">Berhasil ditambahkan!</p>
+          <p className="text-[10px] text-slate-400">Silakan cek keranjang untuk checkout.</p>
+        </div>
+        <button 
+          onClick={() => {
+            toast.dismiss(t.id);
+            toggleCart();
+          }}
+          className="ml-2 px-3 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white text-[10px] font-bold rounded-lg transition-all shadow-lg shadow-indigo-600/20"
+        >
+          LIHAT
+        </button>
+      </div>
+    ), {
+      duration: 3000,
+      position: 'bottom-center',
+      style: {
+        background: '#0f172a', // slate-900
+        border: '1px solid #1e293b', // slate-800
+        padding: '12px',
+        borderRadius: '20px',
+        maxWidth: '400px',
+      },
+    });
   };
 
   const handleDirectBuy = async () => {
