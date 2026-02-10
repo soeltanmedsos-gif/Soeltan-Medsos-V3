@@ -257,6 +257,62 @@ Terima kasih!`;
         >
           <OrderStatusCard order={order} onRefresh={handleRefreshStatus} refreshing={refreshing} />
           
+          {/* Manual Payment Info for Pending Orders */}
+          {order?.status === 'pending' && (
+            <div className="mt-4 bg-slate-800/80 backdrop-blur-xl rounded-2xl border border-slate-700 p-6 shadow-lg border-l-4 border-l-indigo-500">
+              <h4 className="text-indigo-400 font-bold text-sm uppercase tracking-wider mb-4 flex items-center gap-2">
+                <CreditCard size={16} />
+                Informasi Pembayaran Manual
+              </h4>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700 hover:border-indigo-500/50 transition-colors">
+                   <div className="flex justify-between items-start mb-2">
+                       <span className="text-[10px] font-black bg-indigo-500/10 px-2 py-0.5 rounded text-indigo-400 border border-indigo-500/20 italic">BCA</span>
+                       <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText('3271332007');
+                          toast.success('Nomor BCA disalin!');
+                        }}
+                        className="flex items-center gap-1.5 text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg transition-all active:scale-95 shadow-lg"
+                      >
+                        <Copy size={12} />
+                        <span>SALIN NOMOR</span>
+                      </button>
+                   </div>
+                   <div className="mt-3">
+                      <p className="text-slate-500 text-[10px] font-bold uppercase mb-0.5">Nomor Rekening</p>
+                      <p className="text-white font-mono text-xl font-bold select-all tracking-wider">3271332007</p>
+                      <p className="text-slate-400 text-xs mt-1">A/n Didik Fajar</p>
+                   </div>
+                </div>
+                <div className="bg-slate-900/50 rounded-xl p-4 border border-slate-700 hover:border-indigo-500/50 transition-colors">
+                   <div className="flex justify-between items-start mb-2">
+                       <span className="text-[10px] font-black bg-indigo-500/10 px-2 py-0.5 rounded text-indigo-400 border border-indigo-500/20 italic">BRI</span>
+                       <button 
+                        onClick={() => {
+                          navigator.clipboard.writeText('014901080052508');
+                          toast.success('Nomor BRI disalin!');
+                        }}
+                        className="flex items-center gap-1.5 text-[10px] font-bold text-white bg-indigo-600 hover:bg-indigo-500 px-3 py-1.5 rounded-lg transition-all active:scale-95 shadow-lg"
+                      >
+                        <Copy size={12} />
+                        <span>SALIN NOMOR</span>
+                      </button>
+                   </div>
+                   <div className="mt-3">
+                      <p className="text-slate-500 text-[10px] font-bold uppercase mb-0.5">Nomor Rekening</p>
+                      <p className="text-white font-mono text-xl font-bold select-all tracking-wider">014901080052508</p>
+                      <p className="text-slate-400 text-xs mt-1">A/n Didik Fajar</p>
+                   </div>
+                </div>
+              </div>
+              <p className="text-slate-500 text-[11px] mt-4 flex items-start gap-2 italic">
+                <span>💡</span>
+                <span>Setelah transfer, harap konfirmasi melalui tombol WhatsApp di atas untuk mempercepat proses verifikasi.</span>
+              </p>
+            </div>
+          )}
+
           <div className="mt-6 bg-slate-800/50 backdrop-blur-xl rounded-2xl border border-slate-700 p-6 shadow-lg">
             <h3 className="text-white font-semibold mb-4 text-center">Riwayat Status</h3>
             <OrderStepper status={order?.status} />
