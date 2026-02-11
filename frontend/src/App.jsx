@@ -35,7 +35,7 @@ function ProtectedRoute({ children }) {
 import { Toaster } from 'react-hot-toast';
 
 // Public Layout
-function PublicLayout({ children }) {
+function PublicLayout({ children, hideFooter = false }) {
   return (
     <>
       <ScrollToTop />
@@ -43,7 +43,7 @@ function PublicLayout({ children }) {
       <main className="container mx-auto px-4 sm:px-6 py-8 min-h-screen">
         {children}
       </main>
-      <Footer />
+      {!hideFooter && <Footer />}
       <Toaster position="top-center" toastOptions={{
         className: 'bg-white text-slate-900 border border-slate-200 shadow-xl rounded-xl',
         duration: 3000,
@@ -67,7 +67,7 @@ export default function App() {
       <Route path="/product/:id" element={<PublicLayout><ProductDetail /></PublicLayout>} />
       <Route path="/order/:purchaseCode" element={<PublicLayout><OrderInfo /></PublicLayout>} />
       <Route path="/cek-pesanan" element={<PublicLayout><CheckOrder /></PublicLayout>} />
-      <Route path="/checkout" element={<PublicLayout><Checkout /></PublicLayout>} />
+      <Route path="/checkout" element={<PublicLayout hideFooter={true}><Checkout /></PublicLayout>} />
       <Route path="/purchase-success/:purchaseCode" element={<PublicLayout><PurchaseSuccess /></PublicLayout>} />
       <Route path="/cara-beli" element={<PublicLayout><HowToBuy /></PublicLayout>} />
       <Route path="/faq" element={<PublicLayout><FAQ /></PublicLayout>} />

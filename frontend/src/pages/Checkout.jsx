@@ -235,7 +235,7 @@ export default function Checkout() {
                 <div className="bg-slate-900/50 rounded-xl p-4 mb-6 border border-slate-700">
                   <p className="text-sm text-slate-400 mb-3">Kode Transaksi (Simpan kode ini):</p>
                   <div className="flex items-center justify-center gap-3">
-                      <code className="bg-indigo-500/20 text-indigo-400 px-4 py-2 rounded-lg font-mono text-xl font-bold tracking-wider">
+                      <code className="bg-indigo-500/20 text-indigo-400 px-3 py-1.5 rounded-lg font-mono text-xs font-bold tracking-tight break-all">
                         {transactionGroupId}
                       </code>
                       <button
