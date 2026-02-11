@@ -457,107 +457,111 @@ export default function Checkout() {
                           ) : (
                               <div className="space-y-4 animate-fade-in">
                                   {/* Compact QRIS & Bank Info */}
-                                  <div className="flex gap-4">
-                                      {/* QRIS Image */}
-                                      <div className="w-24 h-24 bg-white rounded-lg p-1 shrink-0 shadow-lg">
-                                          <div className="w-full h-full bg-slate-100 rounded overflow-hidden relative">
-                                              <img src="/images/qris-image.webp" alt="QRIS" className="w-full h-full object-contain" />
-                                              <div className="absolute inset-0 border-2 border-slate-900/10 rounded pointer-events-none"></div>
-                                          </div>
-                                      </div>
-                                      
-                                      {/* Details */}
-                                      <div className="flex-1 min-w-0 flex flex-col justify-center space-y-2">
-                                          <div>
-                                              <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-0.5">TRANSFER KE</p>
-                                              <div className="bg-slate-900/80 rounded-xl p-3 border border-slate-700 space-y-3">
-                                                  {/* Bank BCA */}
-                                                  <div className="flex flex-col gap-1 pb-3 border-b border-white/5 last:border-0 last:pb-0">
-                                                      <div className="flex items-center justify-between">
-                                                          <span className="text-[9px] font-black bg-white/5 px-1.5 py-0.5 rounded text-slate-400 border border-white/5 italic">BCA</span>
-                                                          <button 
-                                                              onClick={() => {
-                                                                  navigator.clipboard.writeText('3271332007');
-                                                                  toast.success('Nomor BCA disalin!');
-                                                              }}
-                                                              className="flex items-center gap-1.5 text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition-colors bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20"
-                                                          >
-                                                              <Copy size={12} />
-                                                              <span>SALIN</span>
-                                                          </button>
-                                                      </div>
-                                                      <div className="mt-0.5">
-                                                          <p className="text-white font-mono text-sm font-bold tracking-tight select-all">3271332007</p>
-                                                          <p className="text-[9px] text-slate-500 font-medium">A/n Didik Fajar</p>
-                                                      </div>
-                                                  </div>
-                                                  
-                                                  {/* Bank BRI */}
-                                                  <div className="flex flex-col gap-1">
-                                                      <div className="flex items-center justify-between">
-                                                          <span className="text-[9px] font-black bg-white/5 px-1.5 py-0.5 rounded text-slate-400 border border-white/5 italic">BRI</span>
-                                                          <button 
-                                                              onClick={() => {
-                                                                  navigator.clipboard.writeText('014901080052508');
-                                                                  toast.success('Nomor BRI disalin!');
-                                                              }}
-                                                              className="flex items-center gap-1.5 text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition-colors bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20"
-                                                          >
-                                                              <Copy size={12} />
-                                                              <span>SALIN</span>
-                                                          </button>
-                                                      </div>
-                                                      <div className="mt-0.5">
-                                                          <p className="text-white font-mono text-sm font-bold tracking-tight select-all">014901080052508</p>
-                                                          <p className="text-[9px] text-slate-500 font-medium">A/n Didik Fajar</p>
-                                                      </div>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        {/* QRIS Image */}
+                                        <div className="w-full sm:w-24 group">
+                                            <p className="text-[10px] text-slate-500 font-bold uppercase tracking-wider mb-2 sm:hidden">SCAN QRIS</p>
+                                            <div className="aspect-square sm:w-24 sm:h-24 bg-white rounded-xl p-1 shrink-0 shadow-lg relative overflow-hidden">
+                                                <div className="w-full h-full bg-slate-100 rounded-lg overflow-hidden relative">
+                                                    <img src="/images/qris-image.webp" alt="QRIS" className="w-full h-full object-contain" />
+                                                    <div className="absolute inset-0 border-2 border-slate-900/10 rounded-lg pointer-events-none"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                                                                <div className="flex-1 min-w-0">
+                                                <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider mb-1.5">TRANSFER KE</p>
+                                                <div className="bg-slate-900/80 rounded-xl p-3 border border-slate-700 divide-y divide-white/5">
+                                                    {/* Bank BCA */}
+                                                    <div className="flex flex-col gap-1 pb-3">
+                                                        <div className="flex items-center justify-between gap-2">
+                                                            <span className="text-[9px] font-black bg-white/5 px-1.5 py-0.5 rounded text-slate-400 border border-white/5 italic shrink-0">BCA</span>
+                                                            <button 
+                                                                onClick={() => {
+                                                                    navigator.clipboard.writeText('3271332007');
+                                                                    toast.success('Nomor BCA disalin!');
+                                                                }}
+                                                                className="flex items-center gap-1.5 text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition-colors bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 active:scale-95"
+                                                            >
+                                                                <Copy size={12} />
+                                                                <span>SALIN</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="mt-0.5">
+                                                            <p className="text-white font-mono text-sm sm:text-base font-bold tracking-tight select-all">3271332007</p>
+                                                            <p className="text-[9px] text-slate-500 font-medium">A/n Didik Fajar</p>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    {/* Bank BRI */}
+                                                    <div className="flex flex-col gap-1 pt-3">
+                                                        <div className="flex items-center justify-between gap-2">
+                                                            <span className="text-[9px] font-black bg-white/5 px-1.5 py-0.5 rounded text-slate-400 border border-white/5 italic shrink-0">BRI</span>
+                                                            <button 
+                                                                onClick={() => {
+                                                                    navigator.clipboard.writeText('014901080052508');
+                                                                    toast.success('Nomor BRI disalin!');
+                                                                }}
+                                                                className="flex items-center gap-1.5 text-[10px] font-bold text-indigo-400 hover:text-indigo-300 transition-colors bg-indigo-500/10 px-2 py-1 rounded-md border border-indigo-500/20 active:scale-95"
+                                                            >
+                                                                <Copy size={12} />
+                                                                <span>SALIN</span>
+                                                            </button>
+                                                        </div>
+                                                        <div className="mt-0.5">
+                                                            <p className="text-white font-mono text-sm sm:text-base font-bold tracking-tight select-all">014901080052508</p>
+                                                            <p className="text-[9px] text-slate-500 font-medium">A/n Didik Fajar</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                   {/* Upload Section */}
-                                  <div className="relative group">
-                                      <input 
-                                          type="file" 
-                                          accept="image/*"
-                                          onChange={handleFileChange}
-                                          className="hidden"
-                                          id="payment-proof-upload"
-                                      />
-                                      <label 
-                                          htmlFor="payment-proof-upload"
-                                          className={`flex items-center gap-3 w-full p-3 border-dashed border-2 rounded-xl cursor-pointer transition-all ${
-                                              previewUrl 
-                                              ? 'border-indigo-500 bg-indigo-500/10' 
-                                              : 'border-slate-600 hover:border-indigo-500 hover:bg-slate-800'
-                                          }`}
-                                      >
-                                          {previewUrl ? (
-                                              <>
-                                                  <img src={previewUrl} alt="Preview" className="w-10 h-10 object-cover rounded shadow-sm bg-black" />
-                                                  <div className="flex-1 min-w-0">
-                                                      <p className="text-xs font-semibold text-indigo-300 truncate">{paymentProof?.name}</p>
-                                                      <p className="text-[10px] text-indigo-400">Klik untuk ganti</p>
-                                                  </div>
-                                                  <div className="w-6 h-6 rounded-full bg-indigo-500 flex items-center justify-center">
-                                                      <CheckCircle size={14} className="text-white" />
-                                                  </div>
-                                              </>
-                                          ) : (
-                                              <>
-                                                  <div className="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-slate-400 group-hover:text-indigo-400 group-hover:scale-110 transition-all">
-                                                      <Upload size={20} />
-                                                  </div>
-                                                  <div className="text-left">
-                                                      <p className="text-sm font-medium text-slate-300 group-hover:text-white">Upload Bukti</p>
-                                                      <p className="text-[10px] text-slate-500">Max 5MB (JPG/PNG)</p>
-                                                  </div>
-                                              </>
-                                          )}
-                                      </label>
-                                  </div>
+                                    <div className="relative group mt-2">
+                                        <input 
+                                            type="file" 
+                                            accept="image/*"
+                                            onChange={handleFileChange}
+                                            className="hidden"
+                                            id="payment-proof-upload"
+                                        />
+                                        <label 
+                                            htmlFor="payment-proof-upload"
+                                            className={`flex items-center gap-3 w-full p-4 border-dashed border-2 rounded-2xl cursor-pointer transition-all ${
+                                                previewUrl 
+                                                ? 'border-indigo-500 bg-indigo-500/10 shadow-lg shadow-indigo-500/5' 
+                                                : 'border-slate-600 hover:border-indigo-500 hover:bg-slate-800/80 hover:shadow-xl'
+                                            }`}
+                                        >
+                                            {previewUrl ? (
+                                                <>
+                                                    <div className="relative shrink-0">
+                                                        <img src={previewUrl} alt="Preview" className="w-12 h-12 object-cover rounded-lg shadow-md border border-indigo-500/30" />
+                                                        <div className="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-indigo-500 flex items-center justify-center border-2 border-slate-900 shadow-sm">
+                                                            <CheckCircle size={10} className="text-white" />
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex-1 min-w-0 pr-2">
+                                                        <p className="text-xs font-bold text-white mb-0.5 break-all line-clamp-1">{paymentProof?.name}</p>
+                                                        <p className="text-[10px] text-indigo-400 font-semibold group-hover:text-indigo-300">Klik untuk ganti bukti</p>
+                                                    </div>
+                                                    <div className="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center shrink-0">
+                                                        <Upload size={16} className="text-indigo-400 group-hover:scale-110 transition-transform" />
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <div className="w-12 h-12 rounded-xl bg-slate-900 flex items-center justify-center text-slate-400 group-hover:text-indigo-400 group-hover:scale-110 transition-all border border-slate-700 shadow-inner shrink-0">
+                                                        <Upload size={22} />
+                                                    </div>
+                                                    <div className="text-left flex-1">
+                                                        <p className="text-sm font-bold text-slate-100 group-hover:text-white">Upload Bukti Pay</p>
+                                                        <p className="text-[11px] text-slate-500 font-medium">Pilih foto dari galeri (Max 5MB)</p>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </label>
+                                    </div>
                               </div>
                           )}
                       </div>
