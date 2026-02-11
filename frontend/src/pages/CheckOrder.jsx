@@ -270,26 +270,6 @@ export default function CheckOrder() {
                 </div>
               )}
               
-              {/* Payment Button if needed */}
-              {needsPayment && (
-                <Button
-                  onClick={handlePayNow}
-                  disabled={paymentLoading}
-                  className="w-full py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-500 hover:to-emerald-500 shadow-lg shadow-green-500/25 flex items-center justify-center gap-2"
-                >
-                  {paymentLoading ? (
-                    <>
-                      <LoadingSpinner size="sm" />
-                      <span>Memproses...</span>
-                    </>
-                  ) : (
-                    <>
-                      <CreditCard size={20} />
-                      <span>Bayar Sekarang</span>
-                    </>
-                  )}
-                </Button>
-              )}
             </motion.div>
           )}
         </AnimatePresence>

@@ -319,25 +319,6 @@ Terima kasih!`;
           </div>
         </motion.div>
 
-        {/* Payment Button */}
-        {order?.status === 'pending' && (
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="mt-6"
-          >
-            <button
-              onClick={handlePay}
-              disabled={paying}
-              className="w-full py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-xl font-semibold hover:from-indigo-500 hover:to-purple-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/50"
-            >
-              <CreditCard size={20} />
-              {paying ? 'Memproses...' : 'Bayar Sekarang'}
-            </button>
-          </motion.div>
-        )}
-
         {/* Error Message */}
         {error && (
           <motion.div
