@@ -5,7 +5,7 @@ import {
   getSellerStatusInfo,
   getWhatsAppLink 
 } from '../utils/formatters';
-import { Loader2 } from 'lucide-react';
+import { Loader2, MessageCircle } from 'lucide-react';
 
 export default function OrderStatusCard({ order, onRefresh, refreshing }) {
   const paymentStatus = getPaymentStatusInfo(order.status_payment);
